@@ -1,0 +1,14 @@
+{
+  "name": "nasa-fb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
+    "puppeteer": "^13.6.0"
+  }
+}
