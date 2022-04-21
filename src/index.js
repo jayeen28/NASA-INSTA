@@ -11,7 +11,7 @@ process.on('unhandledRejection', (reason, p) => {
  * This is the root function from where all the process starts.
  */
 const root = async () => {
-    const { data } = await axios.get('https://api.nasa.gov/planetary/apod?api_key=4pGVKh4vTlU2QdTZfBgM0s6iuDhKhbyvMkJxg70H')
+    const { data } = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`);
     await downloadImage(data.url, './' + data.title + '.jpg');
     console.log(`[+] Image downloaded for ${data.date}`);
     await handleFBUpload(data);
