@@ -1,5 +1,7 @@
 const fs = require('fs');
-module.exports({
+const axios = require('axios');
+
+module.exports = {
     /**
      * This function is used to download image from the api.
      * @param {String} url The url of the image
@@ -18,4 +20,4 @@ module.exports({
             });
         })
     }
-})
+}

@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const sleep = async ms => new Promise(resolve => setTimeout(resolve, ms))
 
-module.exports({
+module.exports = {
     /**
  * This function is used for uploading the image to facebook.
  * @param {Object} data The data came from NASA api.
@@ -33,4 +33,4 @@ module.exports({
         await sleep(10000);
         await browser.close();
     }
-});
+};
