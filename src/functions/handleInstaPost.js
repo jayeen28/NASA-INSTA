@@ -4,7 +4,7 @@ const FileCookieStore = require('tough-cookie-filestore2');
 
 module.exports = {
     handleInstaPost: async (data) => {
-        const cookieStore = new FileCookieStore('./cookies.json');
+        const cookieStore = new FileCookieStore('cookies.json');
         const client = new Instagram({ username: INSTA_USER, password: INSTA_PASS, cookieStore });
         try {
             await client.login();
