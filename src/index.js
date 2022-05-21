@@ -19,8 +19,8 @@ const root = async () => {
 
 const main = () => {
     root();
-    // setInterval(async () => {
-    //     root();
-    // }, 60000); //86400000 = 1 day
+    setInterval(async () => {
+        root();
+    }, 86400000); //86400000 = 1 day
 }
 main();
