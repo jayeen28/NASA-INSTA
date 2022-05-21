@@ -19,6 +19,10 @@ const root = async () => {
 
 const main = () => {
     root();
+    setInterval(function () {
+        console.log('[+] Make dyno fool.')
+    }, 300000);
+
     setInterval(async () => {
         root();
     }, 86400000); //86400000 = 1 day
