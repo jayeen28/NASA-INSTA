@@ -1,5 +1,6 @@
 const fs = require('fs');
 const axios = require('axios');
+const sharp = require('sharp');
 
 module.exports = {
     /**
@@ -15,7 +16,13 @@ module.exports = {
         request.then(response => {
             response.data.pipe(file);
             return new Promise((resolve, reject) => {
-                file.on('finish', resolve);
+                file.on('finish', () => {
+                    sharp('newImage.jpg').resize(1696, 1064).toFile('resizedNewImage.jpg', (err, info) => {
+                        if (err) reject(err);
+                        console.log('[+] Image resized');
+                        resolve(info);
+                    });
+                });
                 file.on('error', reject);
             });
         })

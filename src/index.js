@@ -1,7 +1,7 @@
 require('dotenv').config();
 const axios = require('axios');
 const { downloadImage } = require('./functions/downloadImage');
-const { handleFBUpload } = require('./functions/handleFBUpload');
+const { handleInstaPost } = require('./functions/handleInstaPost');
 
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -12,16 +12,15 @@ process.on('unhandledRejection', (reason, p) => {
  */
 const root = async () => {
     const { data } = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`);
-    await downloadImage(data.url, './' + data.title + '.jpg');
+    await downloadImage(data.url, 'newImage.jpg');
     console.log(`[+] Image downloaded for ${data.date}`);
-    await handleFBUpload(data);
-    console.log(`[+] Image uploaded to facebook for ${data.date}`);
+    await handleInstaPost(data);
 }
 
 const main = () => {
     root();
-    setInterval(async () => {
-        root();
-    }, 60000); //86400000 = 1 day
+    // setInterval(async () => {
+    //     root();
+    // }, 60000); //86400000 = 1 day
 }
 main();
