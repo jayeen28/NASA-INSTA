@@ -1,12 +1,15 @@
 require('dotenv').config();
 const axios = require('axios');
-const { downloadImage } = require('./functions/downloadImage');
-const { handleInstaPost } = require('./functions/handleInstaPost');
+const { downloadImage } = require('./helpers/downloadImage');
+const { handleInstaPost } = require('./helpers/handleInstaPost');
 const app = require('express')();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`[+] Server started on port ${port}`);
 });
+
+// PingPong
+app.get('/ping', async (req, res) => { res.status(200).send('Pong') })
 
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -20,14 +23,14 @@ const root = async () => {
     await downloadImage(data.url, 'newImage.jpg');
     console.log(`[+] Image downloaded for ${data.date}`);
     await handleInstaPost(data);
-    setTimeout(() => {
-        root();
-    }, 86400000);//86400000 = 1 day
 }
-
+setTimeout(() => {
+    root();
+}, 86400000);//86400000 = 1 day
 const main = () => {
     root();
     setInterval(function () {
+        axios.get('http://localhost:5000/ping')
         console.log('[+] Make dyno fool.')
     }, 300000);
 }

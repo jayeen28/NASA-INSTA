@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "nodemon src/index.js --ignore newImage.jpg --ignore resizedNewImage.jpg --ignore cookies.json"
   },
   "dependencies": {
     "axios": "^0.26.1",
@@ -14,5 +14,8 @@
     "puppeteer": "^13.6.0",
     "sharp": "^0.30.4",
     "tough-cookie-filestore2": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
   }
 }
