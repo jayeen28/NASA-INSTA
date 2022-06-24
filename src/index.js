@@ -2,6 +2,7 @@ require('dotenv').config();
 const axios = require('axios');
 const { downloadImage } = require('./helpers/downloadImage');
 const { handleInstaPost } = require('./helpers/handleInstaPost');
+require('./helpers/getCode');
 const app = require('express')();
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

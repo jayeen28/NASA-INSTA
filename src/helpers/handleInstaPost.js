@@ -1,6 +1,7 @@
 const { INSTA_USER, INSTA_PASS } = process.env;
 const Instagram = require('instagram-web-api');
 const FileCookieStore = require('tough-cookie-filestore2');
+const getCode = require('./getCode');
 const cookieStore = new FileCookieStore('./cookies.json');
 const client = new Instagram({ username: INSTA_USER, password: INSTA_PASS, cookieStore });
 
@@ -16,7 +17,6 @@ const clientLogin = async (client) => {
                 const challengeUrl = err.error.checkpoint_url
                 const res = await client.updateChallenge({ challengeUrl, choice: 1 })
                 if (res.status === 'ok') resolve(res.status)
-                else reject(res.status);
             }
         }
     })
@@ -35,8 +35,7 @@ module.exports = {
             console.log(`[+] Post url: https://www.instagram.com/p/${media.code}/`);
         }
         catch (err) {
-            if (err.message === 'login_required') console.log('Found the login issue bro')
-            console.error(`[+] ${err}`);
+            console.error(`[-] ${err.message}`);
         }
     }
 }
