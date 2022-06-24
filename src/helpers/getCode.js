@@ -19,14 +19,12 @@ const getCode = async () => {
         await page.waitForSelector('input[type="email"]')
         await page.click('input[type="email"]')
         await navigationPromise
-        //TODO : change to your email 
         await page.type('input[type="email"]', process.env.INSTA_USER)
         await page.waitForSelector('#identifierNext')
         await page.click('#identifierNext')
         await page.waitForSelector('input[type="password"]')
         await page.click('input[type="email"]')
         await sleep(3000)
-        //TODO : change to your password
         await page.type('input[type="password"]', process.env.PUPP_PASS)
         await page.waitForSelector('#passwordNext')
         await page.click('#passwordNext')
