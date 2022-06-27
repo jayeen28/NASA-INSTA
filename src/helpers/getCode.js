@@ -13,6 +13,7 @@ const getCode = async () => {
             console.log(dialog.message)
             await dialog.allow();
         })
+
         await page.goto('https://mail.google.com', { waitUntil: 'domcontentloaded' })
         const navigationPromise = await page.waitForNavigation();
         await navigationPromise
@@ -31,7 +32,7 @@ const getCode = async () => {
 
         //inbox page
         await page.waitForNavigation();
-        await sleep(10000)
+        await sleep(20000)
         const res = await page.evaluate(() => {
             const trs = document.getElementsByTagName('tbody')[6].getElementsByTagName('tr')
             for (let i = 0; i < trs.length; i++) {
@@ -47,9 +48,12 @@ const getCode = async () => {
         await page.waitForNavigation();
         await sleep(5000);
         const code = await page.evaluate(() => document.getElementsByTagName('font')[0].textContent)
+        await browser.close();
         return code;
     }
     catch (err) {
+        await browser.close()
+        await sleep(20000)
         getCode();
     }
 
