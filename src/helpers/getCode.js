@@ -3,7 +3,7 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 const sleep = async (ms) => new Promise((resolve) => setTimeout(() => resolve('hello'), ms));
 const getCode = async () => {
-    const browser = await puppeteer.launch({ args: ['--no-sandbox', "--disable-notifications"], headless: false });
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', "--disable-notifications"], headless: true });
     const context = browser.defaultBrowserContext();
     await context.overridePermissions('https://mail.google.com', ["geolocation", "midi", "notifications", "camera", "microphone", "background-sync", "ambient-light-sensor", "accelerometer", "gyroscope", "magnetometer", "accessibility-events", "clipboard-read", "clipboard-write", "payment-handler", "idle-detection", "midi-sysex"
     ]);
