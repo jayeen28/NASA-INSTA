@@ -26,7 +26,7 @@ const getCode = async () => {
         await page.waitForSelector('input[type="password"]')
         await page.click('input[type="email"]')
         await sleep(3000)
-        await page.type('input[type="password"]', process.env.PUPP_PASS)
+        await page.type('input[type="password"]', process.env.GOOGLE_PASS)
         await page.waitForSelector('#passwordNext')
         await page.click('#passwordNext')
 

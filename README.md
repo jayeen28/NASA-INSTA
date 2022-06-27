@@ -14,3 +14,11 @@ The password of the instagram account.
 
 The Api key from NASA. - https://api.nasa.gov
 
+> GOOGLE_PASS
+
+The password of your gmail account.
+
+> HEROKU_URL
+
+The heroku url of your app to ping the server.
+
