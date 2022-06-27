@@ -67,6 +67,7 @@ module.exports = {
             console.log(uploadRes)
         }
         catch (err) {
+            console.log(err)
             if (err.statusCode === 403) {
                 const res = await clientLogin(client);
                 if (!res) return console.log(`[+] Login unsuccessful.`)
