@@ -28,7 +28,7 @@ setTimeout(() => {
 const main = () => {
     root();
     setInterval(function () {
-        axios.get(process.env.HEROKU_URL || 'http://localhost:5000/ping')
+        axios.get(`${process.env.HEROKU_URL}/ping` || 'http://localhost:5000/ping')
         console.log('[+] Make dyno fool.')
     }, 300000);
 }
