@@ -1,7 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
-const { downloadImage } = require('./helpers/downloadImage');
-const { handleInstaPost } = require('./helpers/handleInstaPost');
+const { downloadAndPost } = require('./helpers/downloadAndPost');
 require('./helpers/getCode');
 const app = require('express')();
 const port = process.env.PORT || 5000;
@@ -21,9 +20,7 @@ process.on('unhandledRejection', (reason, p) => {
  */
 const root = async () => {
     const { data } = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`);
-    await downloadImage(data.url, 'newImage.jpg');
-    console.log(`[+] Image downloaded for ${data.date}`);
-    await handleInstaPost(data);
+    await downloadAndPost(data, 'newImage.jpg');
 }
 setTimeout(() => {
     root();
