@@ -65,8 +65,8 @@ module.exports = {
             const res = await clientLogin(client);
             if (!res) return console.log(`[+] Login unsuccessful.`)
             console.log('[+] Login successfull')
-            // const uploadRes = await upload(client, data);
-            // console.log(uploadRes)
+            const uploadRes = await upload(client, data);
+            console.log(uploadRes)
         }
         catch (err) {
             console.log(err)
