@@ -1,6 +1,6 @@
 Instagram account - https://www.instagram.com/nasa_picture_of_the_day
 
-## ENV
+## ENV Setup
 
 > INSTA_USER
 
@@ -16,9 +16,10 @@ The Api key from NASA. - https://api.nasa.gov
 
 > GOOGLE_PASS
 
-The password of your gmail account.
+The password of your gmail account.<br>
+NOTE: This is required because sometimes instagram sends verification code to verify the login attempt. The bot will get the code from gmail using this password. I have added a browser automation script with puppeteer to get the code.
 
 > HEROKU_URL
 
-The heroku url of your app to ping the server.
+The heroku url of your app to ping the server. This is required if you host the bot at heroku. Otherwise heroku will make your bot sleep. 
 
