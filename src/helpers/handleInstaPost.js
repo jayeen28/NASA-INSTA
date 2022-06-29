@@ -12,6 +12,7 @@ const clientLogin = async (client) => {
             if (res.authenticated) resolve(res.authenticated)
         }
         catch (err) {
+            console.log(err)
             try {
                 if (err.error?.message === 'checkpoint_required') {
                     const challengeUrl = err.error.checkpoint_url
@@ -42,6 +43,7 @@ const clientLogin = async (client) => {
                         if (res.status === 'ok') resolve(res)
                     }
                 }
+                else reject();
             }
         }
     })
