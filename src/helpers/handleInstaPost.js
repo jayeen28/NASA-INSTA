@@ -8,7 +8,7 @@ const cookieStore = new FileCookieStore('./cookies.json');
 const clientLogin = async (client) => {
     const res = await new Promise(async (resolve, reject) => {
         try {
-            const res = await client.login();
+            const res = await client.login({}, { _sharedData: false });
             if (res.authenticated) resolve(res.authenticated)
         }
         catch (err) {
@@ -32,12 +32,12 @@ const clientLogin = async (client) => {
                 }
             }
             catch (err) {
+                console.log(err)
                 if (err.error?.challenge?.challengeType === 'VerifyEmailCodeForm') {
                     await sleep(10000)
                     const code = await getCode();
                     console.log({ code2: code })
                     const { options: { uri } } = err;
-                    console.log(err)
                     if (code) {
                         const res = await client.updateChallenge({ challengeUrl: `${uri}`, choice: 0, securityCode: code })
                         if (res.status === 'ok') resolve(res)
@@ -65,8 +65,8 @@ module.exports = {
             const res = await clientLogin(client);
             if (!res) return console.log(`[+] Login unsuccessful.`)
             console.log('[+] Login successfull')
-            const uploadRes = await upload(client, data);
-            console.log(uploadRes)
+            // const uploadRes = await upload(client, data);
+            // console.log(uploadRes)
         }
         catch (err) {
             console.log(err)
