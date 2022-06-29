@@ -22,14 +22,15 @@ const root = async () => {
     const { data } = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`);
     await downloadAndPost(data, 'newImage.jpg');
 }
+
 setTimeout(() => {
     root();
 }, 86400000);//86400000 = 1 day
+
 const main = () => {
     root();
     setInterval(function () {
         axios.get(`${process.env.HEROKU_URL}/ping` || 'http://localhost:5000/ping')
-        console.log('[+] Make dyno fool.')
     }, 300000);
 }
 main();
