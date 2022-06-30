@@ -52,7 +52,7 @@ const clientLogin = async (client) => {
 }
 
 const upload = async (client, data) => {
-    const caption = `Title: ${data.title} \n\nExplaination: ${data.explanation} \n\n\n\nData collected from NASA and posted by MAD FALCON [bot]`;
+    const caption = `Title: ${data.title} \n\nDescription: ${data.explanation} \n\n\n\nData collected from NASA and posted by MAD FALCON [bot]`;
     const { media } = await client.uploadPhoto({ photo: 'resizedNewImage.jpg', caption });
     console.log('[+] Image uploaded to instagram.');
     return `[+] Post url: https://www.instagram.com/p/${media.code}/`
