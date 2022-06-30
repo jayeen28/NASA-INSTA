@@ -23,7 +23,7 @@ const root = async () => {
     await downloadAndPost(data, 'newImage.jpg');
 }
 
-setTimeout(() => {
+setInterval(() => {
     root();
 }, 86400000);//86400000 = 1 day
 
