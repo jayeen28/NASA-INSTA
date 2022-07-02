@@ -23,14 +23,13 @@ const root = async () => {
     await downloadAndPost(data, 'newImage.jpg');
 }
 
-setInterval(() => {
-    root();
-}, 86400000);//86400000 = 1 day
-
 const main = () => {
     root();
+    setInterval(() => {
+        root();
+    }, 86400000);//86400000 = 1 day
     setInterval(function () {
-        axios.get(`${process.env.HEROKU_URL}/ping` || 'http://localhost:5000/ping')
+        axios.get(`${process.env.HEROKU_URL || 'http://localhost:5000'}/ping`)
     }, 300000);
 }
 main();
