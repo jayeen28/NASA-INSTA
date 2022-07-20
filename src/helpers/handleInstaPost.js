@@ -28,7 +28,10 @@ const clientLogin = async (client) => {
                             if (res.status === 'ok') resolve(res)
                         }
                     }
-                    else resolve();
+                    else {
+                        console.log(res)
+                        resolve(res);
+                    }
                 }
             }
             catch (err) {
