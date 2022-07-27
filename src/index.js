@@ -25,7 +25,7 @@ const root = async () => {
 
 const main = () => {
     root();
-    //90000000 = 1 day and 1 hour
+    //90000000 = 1 day and 1 hour 
     setInterval(function () {
         axios.get(`${process.env.HEROKU_URL || `http://localhost:${port}`}/ping`)
     }, 300000);
