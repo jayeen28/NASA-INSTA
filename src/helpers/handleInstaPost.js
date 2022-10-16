@@ -78,7 +78,7 @@ module.exports = {
                 if (!res) return console.log(`[+] Login unsuccessful.`)
                 console.log('[+] Login successfull')
                 const uploadRes = await upload(client, data);
-                console.log(uploadRes)
+                console.log(uploadRes);
             }
             else console.error(`[-] ${err.message}`);
         }
