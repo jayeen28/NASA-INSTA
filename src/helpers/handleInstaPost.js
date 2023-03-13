@@ -3,7 +3,8 @@ const { INSTA_USER, INSTA_PASS } = process.env;
 const Instagram = require('instagram-web-api');
 const FileCookieStore = require('tough-cookie-filestore2');
 const getCode = require('./getCode');
-const cookieStore = new FileCookieStore('./cookies.json');
+const path = require('path');
+const cookieStore = new FileCookieStore(path.resolve() + '/cookies.json');
 
 const clientLogin = async (client) => {
     const res = await new Promise(async (resolve, reject) => {

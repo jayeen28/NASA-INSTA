@@ -19,7 +19,3 @@ The Api key from NASA. - https://api.nasa.gov
 The password of your gmail account.<br>
 NOTE: This is required because sometimes instagram sends verification code to verify the login attempt. The bot will get the code from gmail using this password. I have added a browser automation script with puppeteer to get the code.
 
-> HEROKU_URL
-
-The heroku url of your app to ping the server. This is required if you host the bot at heroku. Otherwise heroku will make your bot sleep. 
-
