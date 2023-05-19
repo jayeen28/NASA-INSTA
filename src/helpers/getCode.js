@@ -33,7 +33,7 @@ const getCode = async () => {
         //inbox page
         await page.waitForNavigation();
         await sleep(20000)
-        const res = await page.evaluate(() => {
+        await page.evaluate(() => {
             const trs = document.getElementsByTagName('tbody')[6].getElementsByTagName('tr')
             for (let i = 0; i < trs.length; i++) {
                 const mainText = trs[i].getElementsByTagName('td')[3].innerText.split('\n')[0]

@@ -3,3 +3,5 @@ node_modules
 newImage.jpg
 resizedNewImage.jpg
 cookies.json
+lastPosted.txt
+yarn.lock
