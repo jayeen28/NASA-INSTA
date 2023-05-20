@@ -3,7 +3,7 @@ const Instagram = require('instagram-web-api');
 const FileCookieStore = require('tough-cookie-filestore2');
 const getCode = require('./getCode');
 const path = require('path');
-const cookieStore = new FileCookieStore(path.join(path.resolve(), 'cookies.json'));
+const cookieStore = new FileCookieStore(path.join(global.projectLocation, 'cookies.json'));
 const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve(''), ms));
 const { INSTA_USER, INSTA_PASS } = process.env;
 const hashTags = ['#Astronomy', '#Astrophotography', '#SpaceExploration', '#NASA', '#StarryNight', '#Cosmos', '#Galaxy', '#Nebula', '#Stars', '#Universe', '#Celestial', '#AstronomyPhotography', '#NightSky', '#AstronomyLovers', '#Astrophoto', '#SpaceScience', '#Planetarium', '#MilkyWay', '#SolarSystem', '#AstronomyPictureOfTheDay'];
@@ -60,8 +60,8 @@ const clientLogin = async (client) => {
 const upload = async (client, data) => {
     const caption = `\nTitle: ${data.title}\n\nDescription: ${data.explanation}\n\n\n\nData collected from NASA and posted by MAD FALCON [bot]
     \n\n\n\n${hashTags.join(' ')}`;
-    const { media } = await client.uploadPhoto({ photo: 'resizedNewImage.jpg', caption });
-    fs.writeFileSync('lastPosted.txt', Date.now().toString());
+    const { media } = await client.uploadPhoto({ photo: path.join(global.projectLocation, 'resizedNewImage.jpg'), caption });
+    fs.writeFileSync(path.join(global.projectLocation, 'lastPosted.txt'), Date.now().toString());
     console.log('[+] Image uploaded to instagram.');
     return `[+] Post url: https://www.instagram.com/p/${media.code}/`
 }

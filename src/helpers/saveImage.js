@@ -1,6 +1,7 @@
 const fs = require('fs');
 const axios = require('axios');
 const sharp = require('sharp');
+const path = require('path');
 
 module.exports = async ({ url }, dest) => {
     try {
@@ -10,7 +11,7 @@ module.exports = async ({ url }, dest) => {
         const res = await new Promise((resolve, reject) => {
             file.on('finish', () => {
                 console.log('[+] Image saved')
-                sharp(dest).resize(1696, 1064).toFile('resizedNewImage.jpg', (err, info) => {
+                sharp(dest).resize(1696, 1064).toFile(path.join(global.projectLocation, 'resizedNewImage.jpg'), (err, info) => {
                     if (err) reject(err.message);
                     resolve(info);
                 });
