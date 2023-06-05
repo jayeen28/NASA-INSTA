@@ -27,6 +27,10 @@ const start = async () => {
         const { data } = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`);
         await saveImage(data, path.join(global.projectLocation, 'newImage.jpg'));
         await post(data);
+        timeOut = setTimeout(() => {
+            console.log('The script will restart after 24 hour');
+            start();
+        }, 86400000);
     }
     catch (e) {
         console.log(e);
