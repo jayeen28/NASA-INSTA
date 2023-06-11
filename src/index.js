@@ -14,7 +14,10 @@ process.on('unhandledRejection', (reason, p) => {
 
 const measureTime = () => {
     const lastPostedPath = path.join(global.projectLocation, 'lastPosted.txt');
-    if (!fs.existsSync(lastPostedPath)) fs.writeFileSync(lastPostedPath, '', 'utf-8');
+    if (!fs.existsSync(lastPostedPath)) {
+        fs.writeFileSync(lastPostedPath, '', 'utf-8');
+        return { shouldStart: true };
+    }
     const lastPosted = parseInt(fs.readFileSync(lastPostedPath, 'utf-8'));
     const before24h = Date.now() - 86400000; //86400000=24h
     return { shouldStart: lastPosted < before24h, timeLeft: lastPosted - before24h };
