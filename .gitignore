@@ -1,5 +1,6 @@
 node_modules
 .env
+start.sh
 newImage.jpg
 resizedNewImage.jpg
 cookies.json
