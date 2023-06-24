@@ -19,6 +19,7 @@ const measureTime = () => {
         return { shouldStart: true };
     }
     const lastPosted = parseInt(fs.readFileSync(lastPostedPath, 'utf-8'));
+    if (isNaN(lastPosted)) return { shouldStart: true };
     const before24h = Date.now() - 86400000; //86400000=24h
     return { shouldStart: lastPosted < before24h, timeLeft: lastPosted - before24h };
 };
