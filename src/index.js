@@ -6,10 +6,11 @@ require('dotenv').config();
 const saveImage = require('./helpers/saveImage');
 const post = require('./helpers/post');
 const getTimeStr = require('./helpers/getTimeStr');
+const notifier = require('./helpers/notifier');
 let timeOut;
 
 process.on('unhandledRejection', (reason, p) => {
-    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+    notifier({ message: `Unhandled Rejection at: Promise ${p}\nreason:${reason}`, notify: false });
 });
 
 const measureTime = () => {
@@ -27,17 +28,17 @@ const measureTime = () => {
 const start = async () => {
     try {
         clearTimeout(timeOut);
-        console.log('[+] Processed started');
+        notifier({ message: 'NASA-INSTA process started.' });
         const { data } = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`);
         await saveImage(data, path.join(global.projectLocation, 'newImage.jpg'));
         await post(data);
         timeOut = setTimeout(() => {
-            console.log('The script will restart after 24 hour');
+            notifier({ message: 'The script will restart after 24 hour' })
             start();
         }, 86400000);
     }
     catch (e) {
-        console.log(e);
+        notifier({ message: e, notify: false });
     }
 }
 
@@ -45,7 +46,7 @@ const main = () => {
     const { shouldStart, timeLeft } = measureTime();
     if (shouldStart) start();
     else {
-        console.log(`The script will start after ${getTimeStr(timeLeft)}`);
+        notifier({ message: `The script will start after ${getTimeStr(timeLeft)}` });
         timeOut = setTimeout(() => start(), timeLeft);
     }
 }

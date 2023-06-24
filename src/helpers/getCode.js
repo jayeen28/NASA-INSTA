@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+const notifier = require('./notifier');
 puppeteer.use(StealthPlugin());
 const sleep = async (ms) => new Promise((resolve) => setTimeout(() => resolve('hello'), ms));
 const getCode = async () => {
@@ -10,7 +11,7 @@ const getCode = async () => {
     const page = await browser.newPage();
     try {
         page.on('dialog', async dialog => {
-            console.log(dialog.message)
+            notifier({ message: dialog.message, notify: false });
             await dialog.allow();
         })
 

@@ -3,6 +3,7 @@ const Instagram = require('instagram-web-api');
 const FileCookieStore = require('tough-cookie-filestore2');
 const getCode = require('./getCode');
 const path = require('path');
+const notifier = require('./notifier');
 const cookieStore = new FileCookieStore(path.join(global.projectLocation, 'cookies.json'));
 const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve(''), ms));
 const { INSTA_USER, INSTA_PASS } = process.env;
@@ -15,7 +16,7 @@ const clientLogin = async (client) => {
             if (res.authenticated) resolve(res.authenticated)
         }
         catch (err) {
-            console.log(err)
+            notifier({ message: err, notify: false });
             try {
                 if (err.error?.message === 'checkpoint_required') {
                     const challengeUrl = err.error.checkpoint_url
@@ -23,26 +24,24 @@ const clientLogin = async (client) => {
                     if (res.challengeType === 'VerifyEmailCodeForm') {
                         await sleep(10000)
                         const code = await getCode();
-                        console.log({ code1: code })
                         const { navigation: { forward } } = res;
                         if (code) {
                             const res = await client.updateChallenge({ challengeUrl: `${forward}`, choice: 0, securityCode: code })
-                            console.log(res)
+                            notifier({ message: res, notify: false });
                             if (res.status === 'ok') resolve(res)
                         }
                     }
                     else {
-                        console.log(res)
+                        notifier({ message: res, notify: false });
                         resolve(res);
                     }
                 }
             }
             catch (err) {
-                console.log(err)
+                notifier({ message: err, notify: false });
                 if (err.error?.challenge?.challengeType === 'VerifyEmailCodeForm') {
                     await sleep(10000)
                     const code = await getCode();
-                    console.log({ code2: code })
                     const { options: { uri } } = err;
                     if (code) {
                         const res = await client.updateChallenge({ challengeUrl: `${uri}`, choice: 0, securityCode: code })
@@ -62,7 +61,6 @@ const upload = async (client, data) => {
     \n\n\n\n${hashTags.join(' ')}`;
     const { media } = await client.uploadPhoto({ photo: path.join(global.projectLocation, 'resizedNewImage.jpg'), caption });
     fs.writeFileSync(path.join(global.projectLocation, 'lastPosted.txt'), Date.now().toString());
-    console.log('[+] Image uploaded to instagram.');
     return `[+] Post url: https://www.instagram.com/p/${media.code}/`
 }
 
@@ -70,21 +68,21 @@ module.exports = async (data) => {
     const client = new Instagram({ username: INSTA_USER, password: INSTA_PASS, cookieStore });
     try {
         const res = await clientLogin(client);
-        if (!res) return console.log(`[+] Login unsuccessful.`)
-        console.log('[+] Login successfull')
-        const uploadRes = await upload(client, data);
-        console.log(uploadRes)
+        if (!res) return notifier({ message: 'Login unsuccessful.' })
+        notifier({ message: 'Login successfull', notify: false });
+        const link = await upload(client, data);
+        notifier({ message: `Image posted. Link: ${link}` });
     }
     catch (err) {
-        console.log(err)
+        notifier({ message: err, notify: false });
         if (err.statusCode === 403) {
             const res = await clientLogin(client);
-            if (!res) return console.log(`[+] Login unsuccessful.`)
-            console.log('[+] Login successfull')
-            const uploadRes = await upload(client, data);
-            console.log(uploadRes);
+            if (!res) return notifier({ message: 'Login unsuccessful.' });
+            notifier({ message: 'Login successfull', notify: false });
+            const link = await upload(client, data);
+            notifier({ message: `Image posted. Link: ${link}` });
         }
-        else console.error(`[-] ${err.message}`);
+        else notifier({ message: err.message })
     }
 };
 

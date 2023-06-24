@@ -2,6 +2,7 @@ const fs = require('fs');
 const axios = require('axios');
 const sharp = require('sharp');
 const path = require('path');
+const notifier = require('./notifier');
 
 module.exports = async ({ url }, dest) => {
     try {
@@ -10,7 +11,7 @@ module.exports = async ({ url }, dest) => {
         data.pipe(file);
         const res = await new Promise((resolve, reject) => {
             file.on('finish', () => {
-                console.log('[+] Image saved')
+                notifier({ message: 'Image saved', notify: false });
                 sharp(dest).resize(1696, 1064).toFile(path.join(global.projectLocation, 'resizedNewImage.jpg'), (err, info) => {
                     if (err) reject(err.message);
                     resolve(info);
@@ -19,11 +20,11 @@ module.exports = async ({ url }, dest) => {
             file.on('error', e => reject(e.message));
         });
         if (res.size) {
-            console.log('[+] Image resized');
+            notifier({ message: 'Image resized', notify: false });
             return;
         }
     }
     catch (e) {
-        console.log({ message: 'error while downloading', e });
+        notifier({ message: `Error while downloading image.\n${e.message}` });
     }
 }
