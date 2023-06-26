@@ -7,7 +7,7 @@ const notifier = require('./notifier');
 const cookieStore = new FileCookieStore(path.join(global.projectLocation, 'cookies.json'));
 const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve(''), ms));
 const { INSTA_USER, INSTA_PASS } = process.env;
-const hashTags = ['#Astronomy', '#Astrophotography', '#SpaceExploration', '#NASA', '#StarryNight', '#Cosmos', '#Galaxy', '#Nebula', '#Stars', '#Universe', '#Celestial', '#AstronomyPhotography', '#NightSky', '#AstronomyLovers', '#Astrophoto', '#SpaceScience', '#Planetarium', '#MilkyWay', '#SolarSystem', '#AstronomyPictureOfTheDay'];
+const hashTags = ['Astronomy', 'Astrophotography', 'SpaceExploration', 'NASA', 'StarryNight', 'Cosmos', 'Galaxy', 'Nebula', 'Stars', 'Universe', 'Celestial', 'AstronomyPhotography', 'NightSky', 'AstronomyLovers', 'Astrophoto', 'SpaceScience', 'Planetarium', 'MilkyWay', 'SolarSystem', 'AstronomyPictureOfTheDay'];
 
 const clientLogin = async (client) => {
     const res = await new Promise(async (resolve, reject) => {
@@ -57,8 +57,10 @@ const clientLogin = async (client) => {
 }
 
 const upload = async (client, data) => {
-    const caption = `\nTitle: ${data.title}\n\nDescription: ${data.explanation}\n\n\n\nData collected from NASA and posted by MAD FALCON [bot]
-    \n\n\n\n${hashTags.join(' ')}`;
+    const matches = (data.explanation || '').match(/the\s+(\w+)/gi);
+    const words = matches.map(match => match.split(' ')[1]);
+    const caption = `\nTitle: ${data.title}\n\nDescription: ${data.explanation}\nData collected from NASA and posted by MAD FALCON [bot]
+    \n#${words.join(' #')}`;
     const { media } = await client.uploadPhoto({ photo: path.join(global.projectLocation, 'resizedNewImage.jpg'), caption });
     fs.writeFileSync(path.join(global.projectLocation, 'lastPosted.txt'), Date.now().toString());
     return `[+] Post url: https://www.instagram.com/p/${media.code}/`
