@@ -38,7 +38,7 @@ const start = async () => {
         }, 86400000);
     }
     catch (e) {
-        notifier({ message: e, notify: false });
+        notifier({ message: e, notify: true });
     }
 }
 
