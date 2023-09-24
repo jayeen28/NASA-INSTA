@@ -15,13 +15,13 @@ const { INSTA_USER, INSTA_PASS } = process.env;
  * @returns {boolean} - Indicates whether the login was successful.
  */
 const clientLogin = async (client) => {
-    const res = await new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             // Attempt to login to the Instagram account
             const res = await client.login({}, { _sharedData: false });
 
             // If authentication is successful, resolve with the result
-            if (res.authenticated) resolve(res.authenticated);
+            if (res.authenticated) resolve(true);
         } catch (err) {
             notifier({ message: err, notify: false });
             try {
@@ -36,33 +36,30 @@ const clientLogin = async (client) => {
                         if (code) {
                             const res = await client.updateChallenge({ challengeUrl: `${forward}`, choice: 0, securityCode: code });
                             notifier({ message: res, notify: false });
-                            if (res.status === 'ok') resolve(res);
+                            if (res.status === 'ok') resolve(true);
                         }
                     } else {
                         notifier({ message: res, notify: false });
-                        resolve(res);
+                        resolve(true);
                     }
                 }
             } catch (err) {
                 notifier({ message: err, notify: false });
+                // if instagram send verification code then take code from mail.
                 if (err.error?.challenge?.challengeType === 'VerifyEmailCodeForm') {
                     await sleep(10000);
                     const code = await getCode();
                     const { options: { uri } } = err;
                     if (code) {
                         const res = await client.updateChallenge({ challengeUrl: `${uri}`, choice: 0, securityCode: code });
-                        if (res.status === 'ok') resolve(res);
+                        if (res.status === 'ok') resolve(true);
                     }
                 } else {
-                    reject();
+                    reject(false);
                 }
             }
         }
     });
-
-    // Return true if the login was successful, otherwise return false
-    if (res) return true;
-    return false;
 }
 
 /**
